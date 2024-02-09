@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>First Page</title>
+  </head>
+  <body>
+    <h1>hello world</h1>
+
+    <input type="text" name="username" />
+    <input type="number" name="age" />
+    <input type="file" name="avatar" />
+    <input type="file" name="gallery" />
+    <button>Submit</button>
+
+    <script>
+      let username = document.querySelector("[name=username]");
+      let age = document.querySelector("[name=age]");
+      let avatar = document.querySelector("[name=avatar]");
+      let gallery = document.querySelector("[name=gallery]");
+
+      let subBtn = document.querySelector("button");
+      subBtn.onclick = async () => {
+        const formF = new FormData();
+        formF.append("username", username.value);
+        formF.append("age", username.age);
+        formF.append("avatar", avatar.files[0]);
+        formF.append("gallery", gallery.files[0]);
+        formF.append(
+          "infos",
+          JSON.stringify({
+            date: "2024/11/03",
+            title: "The ring!",
+            description: "This book for children",
+            info: { page: 10, author: "Brand" },
+          })
+        );
+        formF.append("_method", "PUT");
+
+        for (let [name, value] of formF) {
+          console.log(`${name} = ${value}`); // key1 = value1, then key2 = value2
+        }
+
+        const res = await fetch("http://localhost:3000", {
+          method: "PUT",
+          body: formF,
+        });
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+</head>
+<style>
+   .progress-bar {
+      margin: 50px 0;
+      height: 15px;
+      width: 300px;
+      background-image: linear-gradient(to right, lightgreen 0, lightgreen 0, white 0, white 100%);
+      border: 1px solid lightcoral;
+      border-radius: 10px;
+      position: relative;
+   }
+
+   .progress-bar>span {
+      font-size: 18px;
+      font-weight: bold;
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+   }
+</style>
+
+<body>
+   <h1>Progress Download Bar</h1>
+   <div class="progress-bar">
+      <span>Downlaoding...</span>
+   </div>
+
+   <button onclick="getImage()">Get Image</button>
+
+
+
+   <script>
+      let progresBar = document.querySelector(".progress-bar");
+      let indecator = document.querySelector(".progress-bar > span");
+
+      let url =
+         "https://fetch-progress.anthum.com/120kbps/images/sunrise-baseline.jpg";
+
+      // content-length header in bytes
+      function getImage() {
+         fetch(url)
+            .then(httpRes => {
+               const contentLength = httpRes.headers.get("content-length");
+               let loaded = 0;
+
+               return new Response(
+                  new ReadableStream({
+                     start(controller) {
+                        const reader = httpRes.body.getReader();
+
+                        read();
+                        function read() {
+                           reader.read().then(({ done, value }) => {
+                              if (done) {
+                                 controller.close();
+                                 return;
+                              }
+                              loaded += value.byteLength;
+                              let progres = Math.round((loaded / contentLength) * 100) + "%";
+                              progresBar.style.backgroundImage = `linear-gradient(to right, lightgreen 0, lightgreen ${progres}, white ${progres}, white 100%)`
+                              indecator.textContent = progres
+                              controller.enqueue(value);
+                              read();
+                           });
+                        }
+                     },
+                  })
+               );
+            })
+            .then(res => res.blob())
+            .then(blob => {
+               let src = URL.createObjectURL(blob);
+               const img = new Image();
+               img.src = src;
+               document.body.appendChild(img);
+               // setTimeout(() => {
+               //    URL.revokeObjectURL(src);
+               // });
+            });
+
+      }
+   </script>
+</body>
+
+</html>

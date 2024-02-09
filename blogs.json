@@ -1,0 +1,37 @@
+[{
+  "title": "Blog 1",
+  "content": "The first Blog",
+  "user": {
+    "$oid": "64106992df82c4a573744af5"
+  }
+},{
+  "title": "Blog 2",
+  "content": "",
+  "user": {
+    "$oid": "64106992df82c4a573744af5"
+  }
+},{
+  "title": "Blog 3",
+  "content": "The lsdjflsdjldsjf",
+  "user": {
+    "$oid": "64106992df82c4a573744af5"}
+  },
+  {
+  "title": "Blog 1",
+  "content": "The first Blog",
+  "user": {
+    "$oid": "64106992df82c4a573744af5"
+  }
+},{
+  "title": "Blog 2",
+  "content": "",
+  "user": {
+    "$oid": "64106992df82c4a573744af5"
+  }
+},{
+  "title": "Blog 3",
+  "content": "The lsdjflsdjldsjf",
+  "user": {
+    "$oid": "64106992df82c4a573744af5"}
+  }
+  ]
